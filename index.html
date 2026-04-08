@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiverse Music Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Temas */
+        .theme-spotify { --primary: #1DB954; --bg: #121212; --text: white; --card: #181818; }
+        .theme-apple { --primary: #FA243C; --bg: #ffffff; --text: black; --card: #f5f5f7; }
+        .theme-soundcloud { --primary: #ff5500; --bg: #f2f2f2; --text: #333; --card: #ffffff; }
+
+        body { transition: all 0.5s ease; background-color: var(--bg); color: var(--text); }
+        .accent-color { color: var(--primary); }
+        .bg-accent { background-color: var(--primary); }
+        .card { background-color: var(--card); border-radius: 8px; }
+
+        /* Estilo SoundCloud */
+        .theme-soundcloud .player-bar { border-top: 1px solid #e5e5e5; }
+
+        /* Animação Clair Obscure */
+        .clair-shadow { box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body class="theme-spotify h-screen flex flex-col overflow-hidden">
+
+    <!-- Header / Selector -->
+    <header class="p-4 flex justify-between items-center border-b border-gray-800">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-compact-disc text-2xl animate-spin-slow accent-color"></i>
+            <h1 class="font-bold text-xl">BANCO DE MÚSICAS</h1>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="setTheme('spotify')" class="px-3 py-1 rounded bg-green-600 text-white text-xs">Spotify</button>
+            <button onclick="setTheme('apple')" class="px-3 py-1 rounded bg-red-500 text-white text-xs">Apple</button>
+            <button onclick="setTheme('soundcloud')" class="px-3 py-1 rounded bg-orange-500 text-white text-xs">SoundCloud</button>
+        </div>
+    </header>
+
+    <main class="flex-1 flex overflow-hidden">
+        <!-- Sidebar (Estilo Spotify) -->
+        <aside id="sidebar" class="w-64 p-4 card m-2 hidden md:block">
+            <h2 class="font-bold mb-4 opacity-70">Sua Biblioteca</h2>
+            <ul id="playlist-menu" class="space-y-2">
+                <!-- Músicas aparecerão aqui -->
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <section class="flex-1 p-6 flex flex-col items-center justify-center">
+            <div id="now-playing-card" class="clair-shadow card p-8 w-full max-w-md text-center transition-all duration-700">
+                <img id="cover-art" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" class="w-64 h-64 mx-auto rounded-lg mb-6 object-cover shadow-2xl">
+                <h2 id="track-title" class="text-2xl font-bold">Escolha uma música</h2>
+                <p id="track-artist" class="opacity-60 mb-6">Mestre Pokémon</p>
+
+                <div class="w-full bg-gray-700 h-1 rounded-full mb-2 cursor-pointer overflow-hidden" onclick="seek(event)">
+                    <div id="progress-bar" class="bg-accent h-full w-0"></div>
+                </div>
+                <div class="flex justify-between text-xs opacity-50 mb-6">
+                    <span id="current-time">0:00</span>
+                    <span id="total-duration">0:00</span>
+                </div>
+
+                <div class="flex items-center justify-center gap-8 text-3xl">
+                    <button onclick="prev()"><i class="fa-solid fa-backward-step hover:opacity-70"></i></button>
+                    <button onclick="togglePlay()" id="play-btn" class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg"><i class="fa-solid fa-play ml-1"></i></button>
+                    <button onclick="next()"><i class="fa-solid fa-forward-step hover:opacity-70"></i></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <audio id="main-player" ontimeupdate="updateProgress()"></audio>
+
+    <script>
+        let playlist = [];
+        let currentIndex = 0;
+        const player = document.getElementById('main-player');
+
+        // Carregar playlist do JSON
+        fetch('playlist.json')
+            .then(res => res.json())
+            .then(data => {
+                playlist = data.playlist;
+                renderPlaylist();
+                if(playlist.length > 0) loadTrack(0);
+            });
+
+        function renderPlaylist() {
+            const menu = document.getElementById('playlist-menu');
+            menu.innerHTML = playlist.map((song, i) => `
+                <li onclick="loadTrack(${i})" class="cursor-pointer hover:accent-color flex items-center gap-2 p-2 rounded hover:bg-white/10">
+                    <i class="fa-solid fa-music text-xs"></i>
+                    <span class="truncate">${song.title}</span>
+                </li>
+            `).join('');
+        }
+
+        function loadTrack(index) {
+            currentIndex = index;
+            const song = playlist[index];
+            player.src = song.url;
+            document.getElementById('track-title').innerText = song.title;
+            document.getElementById('track-artist').innerText = song.artist;
+            document.getElementById('cover-art').src = song.cover;
+
+            // Alteração de estilo Clair Obscure (Sombra dinâmica)
+            document.getElementById('now-playing-card').style.boxShadow = `0 20px 50px rgba(0,0,0,0.8)`;
+
+            if (!player.paused) player.play();
+        }
+
+        function togglePlay() {
+            const btn = document.getElementById('play-btn');
+            if (player.paused) {
+                player.play();
+                btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            } else {
+                player.pause();
+                btn.innerHTML = '<i class="fa-solid fa-play ml-1"></i>';
+            }
+        }
+
+        function updateProgress() {
+            const progress = (player.currentTime / player.duration) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('current-time').innerText = formatTime(player.currentTime);
+            document.getElementById('total-duration').innerText = formatTime(player.duration || 0);
+        }
+
+        function formatTime(secs) {
+            const min = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return `${min}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function setTheme(theme) {
+            document.body.className = `h-screen flex flex-col overflow-hidden theme-${theme}`;
+
+            // Referência Disney: A mágica acontece na transição
+            const card = document.getElementById('now-playing-card');
+            if(theme === 'apple') {
+                card.style.borderRadius = '30px';
+            } else if(theme === 'soundcloud') {
+                card.style.borderRadius = '0px';
+            } else {
+                card.style.borderRadius = '12px';
+            }
+        }
+
+        function next() {
+            currentIndex = (currentIndex + 1) % playlist.length;
+            loadTrack(currentIndex);
+            player.play();
+        }
+
+        function prev() {
+            currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentIndex);
+            player.play();
+        }
+
+        function seek(e) {
+            const rect = e.target.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const pct = x / rect.width;
+            player.currentTime = pct * player.duration;
+        }
+    </script>
+</body>
+</html>

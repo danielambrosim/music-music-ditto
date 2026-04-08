@@ -1,0 +1,10 @@
+{
+  "playlist": [
+    {
+      "title": "Exemplo de Música",
+      "artist": "Mestre Pokémon",
+      "url": "BANCO DE MÚSICAS/exemplo.mp3",
+      "cover": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    }
+  ]
+}
