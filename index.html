@@ -10,15 +10,11 @@
         /* Temas */
         .theme-spotify { --primary: #1DB954; --bg: #121212; --text: white; --card: #181818; }
         .theme-apple { --primary: #FA243C; --bg: #ffffff; --text: black; --card: #f5f5f7; }
-        .theme-soundcloud { --primary: #ff5500; --bg: #f2f2f2; --text: #333; --card: #ffffff; }
 
         body { transition: all 0.5s ease; background-color: var(--bg); color: var(--text); }
         .accent-color { color: var(--primary); }
         .bg-accent { background-color: var(--primary); }
         .card { background-color: var(--card); border-radius: 8px; }
-
-        /* Estilo SoundCloud */
-        .theme-soundcloud .player-bar { border-top: 1px solid #e5e5e5; }
 
         /* Animação Clair Obscure */
         .clair-shadow { box-shadow: 0 0 30px rgba(0,0,0,0.5); }
@@ -35,7 +31,6 @@
         <div class="flex gap-2">
             <button onclick="setTheme('spotify')" class="px-3 py-1 rounded bg-green-600 text-white text-xs">Spotify</button>
             <button onclick="setTheme('apple')" class="px-3 py-1 rounded bg-red-500 text-white text-xs">Apple</button>
-            <button onclick="setTheme('soundcloud')" class="px-3 py-1 rounded bg-orange-500 text-white text-xs">SoundCloud</button>
         </div>
     </header>
 
