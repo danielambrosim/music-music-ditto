@@ -29,16 +29,6 @@ O arquivo `playlist.json` é o seu **Backpack (Backpack Battle)**.
 
 ---
 
-## 5. Como subir para o GitHub (O Desafio da Elite dos 4)
-Para o seu site funcionar e o mundo todo ver, siga estes passos:
-
-1. **Crie o Repositório:** Chame de "meu-player-de-musica".
-2. **Suba os arquivos:** Coloque o `index.html`, o `playlist.json` e a pasta `BANCO DE MÚSICAS`.
-3. **Ative o GitHub Pages:** Vá em *Settings -> Pages* e ative o site.
-4. **Link das Músicas:** No seu `playlist.json`, o link da música deve ser o caminho relativo, exemplo: `BANCO DE MÚSICAS/minha-musica.mp3`.
-
----
-
 **"O futuro pertence àqueles que acreditam na beleza de seus sonhos... e em um código bem indentado."** - *Walt Disney (quase isso)*
 
 **"Amanhã, o sol brilhará sobre um novo player de música!"** - *Tai (Digimon Adventure)*
