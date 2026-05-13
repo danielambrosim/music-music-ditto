@@ -1,11 +1,11 @@
 // ========================================
-// CONFIGURAÇÃO DO SUPABASE
+// CONFIGURAÇÃO DO SUPABASE (NOVO PROJETO)
 // ========================================
-const SUPABASE_URL = 'https://ictthminfkolivspqwxy.supabase.co';     // Cole sua URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImljdHRobWluZmtvbGl2c3Bxd3h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzM1MzYsImV4cCI6MjA5NDI0OTUzNn0.-3hvQZ0kCQCeTbZUZcHqSBmFJj7KVZ8_E-vkfMRuVEk';              // Cole sua chave
+const SUPABASE_URL = 'https://jhnivxynrneorrjuqjch.supabase.co';  // ← URL do novo projeto
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impobml2eHlucm5lb3JyanVxamNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDQyNDEsImV4cCI6MjA5NDIyMDI0MX0.38M2xVyDcaV3ZXh1kov8rEB4R0lI6QYdeubW2WUXH-8';               // ← Nova chave anônima
+const BUCKET_NAME = 'musicas';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-const BUCKET_NAME = 'musicas';  // Nome do bucket que você criou
 
 let playlist = [];
 let currentIndex = 0;
