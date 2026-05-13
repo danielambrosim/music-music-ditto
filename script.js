@@ -1,11 +1,11 @@
 // ========================================
 // CONFIGURAÇÃO DO SUPABASE
 // ========================================
-const SUPABASE_URL = 'https://SEU_PROJETO.supabase.co';  // Cole sua URL
-const SUPABASE_ANON_KEY = 'SUA_CHAVE_ANONIMA';  // Cole sua chave anônima
+const SUPABASE_URL = 'https://SEU_PROJETO.supabase.co';     // Cole sua URL
+const SUPABASE_ANON_KEY = 'SUA_CHAVE_ANONIMA';              // Cole sua chave
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-const BUCKET_NAME = 'musicas';
+const BUCKET_NAME = 'musicas';  // Nome do bucket que você criou
 
 let playlist = [];
 let currentIndex = 0;
@@ -16,26 +16,6 @@ const player = document.getElementById('main-player');
 // INICIALIZAÇÃO
 // ========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Carregar playlist
-    fetch('playlist.json')
-        .then(res => res.json())
-        .then(data => {
-            playlist = data.playlist;
-            renderPlaylist();
-            if(playlist.length > 0) {
-                // Carregar última música ouvida (se existir)
-                const savedTrack = localStorage.getItem('savedTrack');
-                const savedTime = localStorage.getItem('savedTime');
-                if(savedTrack && savedTrack < playlist.length) {
-                    loadTrack(parseInt(savedTrack));
-                    player.currentTime = parseFloat(savedTime || 0);
-                } else {
-                    loadTrack(0);
-                }
-            }
-        })
-        .catch(error => console.error('Erro ao carregar playlist:', error));
-    
     // Carregar tema salvo
     const savedTheme = localStorage.getItem('selectedTheme');
     if(savedTheme) setTheme(savedTheme);
@@ -43,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carregar estado do shuffle
     const savedShuffle = localStorage.getItem('shuffle');
     if(savedShuffle === 'true') toggleShuffle();
+    
+    // Carregar músicas do Supabase (em vez do playlist.json)
+    loadSongsFromSupabase();
     
     // Salvar progresso periodicamente
     setInterval(() => {
