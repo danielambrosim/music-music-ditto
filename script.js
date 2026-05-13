@@ -5,8 +5,8 @@ const SUPABASE_URL = 'https://jhnivxynrneorrjuqjch.supabase.co';  // ← URL do 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impobml2eHlucm5lb3JyanVxamNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDQyNDEsImV4cCI6MjA5NDIyMDI0MX0.38M2xVyDcaV3ZXh1kov8rEB4R0lI6QYdeubW2WUXH-8';               // ← Nova chave anônima
 const BUCKET_NAME = 'musicas';
 
+// Criar cliente Supabase
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-supabase.storage.from('musicas').list('').then(r => console.log(r))
 
 let playlist = [];
 let currentIndex = 0;
