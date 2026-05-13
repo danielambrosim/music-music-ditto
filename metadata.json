@@ -1,0 +1,10 @@
+{
+    "minha_musica_1.mp3": {
+        "artist": "Artista Um",
+        "cover": "https://link-para-capa1.jpg"
+    },
+    "minha_musica_2.mp3": {
+        "artist": "Artista Dois",
+        "cover": "https://link-para-capa2.jpg"
+    }
+}
