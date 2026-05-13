@@ -1,8 +1,8 @@
 // ========================================
 // CONFIGURAÇÃO DO SUPABASE
 // ========================================
-const SUPABASE_URL = 'https://SEU_PROJETO.supabase.co';     // Cole sua URL
-const SUPABASE_ANON_KEY = 'SUA_CHAVE_ANONIMA';              // Cole sua chave
+const SUPABASE_URL = 'ictthminfkolivspqwxy';     // Cole sua URL
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImljdHRobWluZmtvbGl2c3Bxd3h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzM1MzYsImV4cCI6MjA5NDI0OTUzNn0.-3hvQZ0kCQCeTbZUZcHqSBmFJj7KVZ8_E-vkfMRuVEk';              // Cole sua chave
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const BUCKET_NAME = 'musicas';  // Nome do bucket que você criou
